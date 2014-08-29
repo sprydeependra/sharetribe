@@ -10,6 +10,17 @@ CREATE TABLE `auth_tokens` (
   UNIQUE KEY `index_auth_tokens_on_token` (`token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `billing_agreements` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `from_account_id` int(11) NOT NULL,
+  `to_account_id` int(11) NOT NULL,
+  `status` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'pending',
+  `billing_agreement_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE `bookings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `listing_conversation_id` int(11) DEFAULT NULL,
@@ -559,6 +570,16 @@ CREATE TABLE `messages` (
   KEY `index_messages_on_conversation_id` (`conversation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `order_permissions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `from_account_id` int(11) NOT NULL,
+  `to_account_id` int(11) NOT NULL,
+  `status` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'pending',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE `participations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `person_id` varchar(255) DEFAULT NULL,
@@ -628,6 +649,18 @@ CREATE TABLE `payments` (
   KEY `index_payments_on_payer_id` (`payer_id`),
   KEY `index_payments_on_conversation_id` (`conversation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `paypal_accounts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `person_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `community_id` int(11) NOT NULL,
+  `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `api_password` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `api_signature` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `people` (
   `id` varchar(22) NOT NULL,
@@ -1752,3 +1785,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140819134039');
 INSERT INTO schema_migrations (version) VALUES ('20140819134055');
 
 INSERT INTO schema_migrations (version) VALUES ('20140820132249');
+
+INSERT INTO schema_migrations (version) VALUES ('20140829075839');
